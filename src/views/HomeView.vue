@@ -1,46 +1,92 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
-
-const route = useRoute();
-
-// 判斷當前是否在 /docs
-const isDocs = computed(() => route.path === '/docs');
-
-// 設定按鈕的目標路由
-const buttonText = computed(() => (isDocs.value ? '🏠 回首頁' : '📄 文本'));
-const buttonLink = computed(() => (isDocs.value ? '/' : '/docs'));
+const openDocs = () => {
+  window.open('/docs', '_blank');
+};
 </script>
 
 <template>
   <div class="container">
-    <div class="timeline">
-      <nav>
-        <!-- 單一按鈕，根據當前頁面變更內容 -->
-        <RouterLink :to="buttonLink" class="toggle-button">
-          {{ buttonText }}
-        </RouterLink>
+      <nav class="button-container">
+        <button @click="openDocs" class="docs-button">
+          📄 文本
+        </button>
+        <button class="topic-button">
+          🎯 題目
+        </button>
       </nav>
       <RouterView />
-    </div>
   </div>
 </template>
 
 <style scoped>
-.toggle-button {
+.container {
+  margin-top: 20%;
+}
+
+.docs-button,
+.topic-button {
   display: inline-block;
   padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
   text-decoration: none;
   border-radius: 8px;
-  background-color: #007bff;
-  color: white;
+  border: none;
+  cursor: pointer;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.toggle-button:hover {
+.docs-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.docs-button:hover {
   background-color: #0056b3;
   transform: scale(1.05);
+}
+
+.topic-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.topic-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .button-container {
+    justify-content: center;
+  }
+
+  .docs-button,
+  .topic-button {
+    width: 45%;
+    min-width: 140px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .docs-button,
+  .topic-button {
+    width: 100%;
+    text-align: center;
+  }
 }
 </style>
