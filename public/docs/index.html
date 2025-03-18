@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>數學筆記</title>
+
+  <!-- 預設載入 Light 模式 -->
+  <link id="theme-style" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css">
+
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Docsify 設定 -->
+  <script>
+    window.$docsify = {
+      name: '數學筆記',
+      repo: 'https://github.com/tzuchientseng/math',
+      loadSidebar: 'sidebar.md', 
+      subMaxLevel: 2,
+      search: {
+        maxAge: 86400000,
+        placeholder: '搜尋文件...',
+        noData: '找不到結果',
+        depth: 3
+      },
+      alias: {
+       '/.*/sidebar.md': '/sidebar.md' // 確保所有頁面共用同一個 sidebar
+      },
+    };
+
+    // 主題切換函數
+    function toggleTheme() {
+      let currentTheme = localStorage.getItem('theme') || 'light';
+      let themeLink = document.getElementById('theme-style');
+      let themeButton = document.getElementById('theme-toggle-btn');
+
+      if (currentTheme === 'light') {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css');
+        localStorage.setItem('theme', 'dark');
+        themeButton.textContent = "☀️"; // 切換為白天模式
+      } else {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css');
+        localStorage.setItem('theme', 'light');
+        themeButton.textContent = "🌙"; // 切換為夜間模式
+      }
+    }
+
+    // 頁面載入時檢查用戶的主題選擇，並更新按鈕圖示
+    window.onload = function() {
+      let savedTheme = localStorage.getItem('theme') || 'light';
+      let themeLink = document.getElementById('theme-style');
+      let themeButton = document.getElementById('theme-toggle-btn');
+
+      if (savedTheme === 'dark') {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css');
+        themeButton.textContent = "☀️"; // 已是夜間模式，按鈕顯示白天模式
+      } else {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css');
+        themeButton.textContent = "🌙"; // 已是白天模式，按鈕顯示夜間模式
+      }
+    };
+  </script>
+
+  <!-- Docsify 主要腳本 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+
+  <!-- 🌙 切換模式按鈕 -->
+  <button id="theme-toggle-btn" onclick="toggleTheme()" style="
+    position: fixed;
+    top: 10px;
+    right: 70px;
+    padding: 10px;
+    font-size: 16px;
+    background: #34495e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  ">🌙</button>
+
+</body>
+</html>
