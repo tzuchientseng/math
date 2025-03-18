@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const openDocs = () => {
-  window.open('/docs', '_blank'); // 在新分頁開啟 /docs
+  window.open('/docs', '_blank');
 };
 </script>
 
