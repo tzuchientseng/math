@@ -17,7 +17,7 @@
     window.$docsify = {
       name: '數學筆記',
       repo: 'https://github.com/tzuchientseng/math',
-      loadSidebar: true, 
+      loadSidebar: 'sidebar.md', 
       subMaxLevel: 2,
       search: {
         maxAge: 86400000,
@@ -26,7 +26,7 @@
         depth: 3
       },
       alias: {
-        '/.*/_sidebar.md': '/docs/_sidebar.md' // 確保所有頁面共用同一個 sidebar
+       '/.*/sidebar.md': '/sidebar.md' // 確保所有頁面共用同一個 sidebar
       },
     };
 
