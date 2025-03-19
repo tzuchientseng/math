@@ -8,10 +8,10 @@ const openDocs = () => {
   <div class="container">
       <nav class="button-container">
         <button @click="openDocs" class="docs-button">
-          📄 文本
+          📄 教學筆記
         </button>
         <button class="topic-button">
-          🎯 題目
+          🎯 題目整理
         </button>
       </nav>
       <RouterView />
