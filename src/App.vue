@@ -17,6 +17,7 @@ const showHeader = computed(() => route.path !== '/docs');
       <nav>
         <RouterLink to="/">主頁</RouterLink>
         <RouterLink to="/about">關於</RouterLink>
+        <RouterLink to="/login">登入</RouterLink>
       </nav>
     </div>
   </header>
