@@ -1,0 +1,1 @@
+import{_ as s,c,a as o,o as t}from"./index-pq45JWa3.js";const a={},n={class:"docs-container"};function r(d,e){return t(),c("div",n,e[0]||(e[0]=[o("iframe",{class:"fullscreen",src:"/docs/index.html"},null,-1)]))}const _=s(a,[["render",r],["__scopeId","data-v-eb01d513"]]);export{_ as default};
