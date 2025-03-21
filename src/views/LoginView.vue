@@ -43,8 +43,8 @@ const handleLogout = () => {
     <template v-else>
       <div class="login-box">
         <form @submit.prevent="handleLogin">
-          <input v-model="account" type="text" placeholder="帳號" required />
-          <input v-model="password" type="password" placeholder="密碼" required />
+          <input v-model="account" type="text" placeholder="帳號" autocomplete="username" required />
+          <input v-model="password" type="password" placeholder="密碼" autocomplete="current-password" required />
           <button type="submit">
             <span v-if="isLoading" class="spinner"></span>
             <span v-else>登入</span>

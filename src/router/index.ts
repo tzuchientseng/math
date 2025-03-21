@@ -15,6 +15,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DocsView from '../views/DocsView.vue'
 import LoginView from '@/views/LoginView.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -28,6 +29,7 @@ const router = createRouter({
       path: '/docs',
       name: 'document',
       component: DocsView,
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -40,6 +42,17 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
     },
   ],
+})
+
+// ✅ 使用全域導航守衛進行 Token 驗證
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  if (to.meta.requiresAuth && !authStore.token) {
+    alert('未授權，請先登入！')
+    next('/login') // 沒有 Token，導向登入頁面
+  } else {
+    next() // 有 Token，允許進入
+  }
 })
 
 export default router

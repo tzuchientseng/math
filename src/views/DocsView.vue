@@ -11,7 +11,6 @@
   height: 100vh;
 }
 
-/* Make the iframe fill the entire screen */
 .fullscreen {
   position: fixed;
   top: 0;
