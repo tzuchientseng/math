@@ -12,6 +12,16 @@
 <body>
   <div id="app"></div>
 
+  <script>
+    // 先檢查 Token 是否存在於 sessionStorage
+    let token = sessionStorage.getItem("token");
+
+    if (!token) {
+      alert("未授權，請先登入！");
+      window.location.href = "/#/login"; // 🚀 跳轉回 Vue Router 的 `/login`
+    }
+  </script>
+
   <!-- Docsify 設定 -->
   <script>
     window.$docsify = {
