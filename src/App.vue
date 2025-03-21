@@ -2,7 +2,9 @@
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { computed } from 'vue'
+import { useAuthStore } from './stores/auth';
 
+const authStore = useAuthStore();
 const route = useRoute();
 const showHeader = computed(() => route.path !== '/docs');
 </script>
@@ -13,13 +15,27 @@ const showHeader = computed(() => route.path !== '/docs');
 
     <div class="wrapper">
       <HelloWorld msg="數學筆記" />
-
       <nav>
         <RouterLink to="/">主頁</RouterLink>
         <RouterLink to="/about">關於</RouterLink>
-        <RouterLink to="/login">登入</RouterLink>
-      </nav>
+        <!-- <RouterLink to="/login">
+          <span v-if="authStore.isAuthenticated">登出</span>
+          <span v-else>登入</span>
+        </RouterLink> -->
+        <RouterLink 
+        :to="authStore.isAuthenticated ? '/' : '/login'" 
+        @click="authStore.isAuthenticated ? authStore.logout() : null"
+        :class="authStore.isAuthenticated ? 'logout-button' : 'login-button'"
+        >
+        {{ authStore.isAuthenticated ? '登出' : '登入' }}
+      </RouterLink>
+    </nav>
+
+    <div v-if="authStore.isAuthenticated" class="user-info">
+      <span>Hi~ {{ authStore.getUserName }}!</span>
+      <img :src="authStore.user?.avatar" alt="User Avatar" class="user-avatar">
     </div>
+  </div>
   </header>
 
   <RouterView />
@@ -52,7 +68,8 @@ nav a {
   transition: color 0.3s ease;
 }
 
-nav a.router-link-exact-active {
+/* nav a.router-link-exact-active {} */
+nav a.router-link-exact-active:not(.logout-button):not(.login-button) {
   color: gold;
 }
 
@@ -63,6 +80,44 @@ nav a.router-link-exact-active:hover {
 
 nav a:first-of-type {
   border: 0;
+}
+
+.logout-button {
+  color: white;
+  background-color: #dc3545;
+  padding: 4px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.login-button {
+  color: white;
+  background-color: #007bff;
+  padding: 4px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.user-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
 
 @media (min-width: 1024px) {
@@ -91,5 +146,5 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-</style>
 
+</style>
