@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
-const API_URL = 'https://home.sunnytseng.com/api/math-api/token/'
-// const API_URL = 'api/math-api/token/';
+// const API_URL = 'https://home.sunnytseng.com/api/math-api/token/' // `npm run deploy`
+const API_URL = 'api/math-api/token/';
 
 interface User {
   name: string;
@@ -17,8 +17,8 @@ interface AuthState {
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    user: JSON.parse(localStorage.getItem('user') || 'null'),
-    token: localStorage.getItem('token') || null,
+    user: JSON.parse(sessionStorage.getItem('user') || 'null'),
+    token: sessionStorage.getItem('token') || null,
   }),
 
   getters: {
@@ -69,21 +69,20 @@ export const useAuthStore = defineStore('auth', {
     setUser(user: User) {
       this.user = user;
       this.token = user.token;
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', user.token || '');
+      sessionStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('token', user.token || '');
     },
 
     setToken(token: string) {
       this.token = token;
-      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
     },
 
     logout() {
       this.user = null;
       this.token = null;
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('token');
     },
   },
 });
-
