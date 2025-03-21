@@ -140,7 +140,7 @@ const goToLogin = () => {
 .close-btn {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 4px;
   border: none;
   background: none;
   font-size: 20px;
