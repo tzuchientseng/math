@@ -1,4 +1,4 @@
-// // `npm run deploy`
+// // `npm run deploy` For Github SPA
 // import { createRouter, createWebHashHistory } from 'vue-router'
 // const router = createRouter({
 //   history: createWebHashHistory(), // 改為 Hash 模式

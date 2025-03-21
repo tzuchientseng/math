@@ -1,21 +1,56 @@
 <script setup lang="ts">
-const openDocs = () => {
-  window.open('/docs', '_blank');
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+const router = useRouter();
+const showLoginPrompt = ref(false);
+
+const handleDocsClick = () => {
+  if (authStore.isAuthenticated) {
+    window.open('/docs', '_blank');
+  } else {
+    showLoginPrompt.value = true;
+  }
+};
+
+const handleTopicClick = () => {
+  if (authStore.isAuthenticated) {
+    router.push('/topics');
+  } else {
+    showLoginPrompt.value = true;
+  }
+};
+
+const goToLogin = () => {
+  showLoginPrompt.value = false;
+  router.push('/login');
 };
 </script>
+
 
 <template>
   <div class="container">
       <nav class="button-container">
-        <button @click="openDocs" class="docs-button">
+        <button @click="handleDocsClick" class="docs-button">
           📄 教學筆記
         </button>
-        <button class="topic-button">
+        <button @click="handleTopicClick" class="topic-button">
           🎯 題目整理
         </button>
       </nav>
       <RouterView />
   </div>
+
+  <div v-if="showLoginPrompt" class="modal">
+    <div class="modal-content">
+        <p>請先登入才能使用此功能</p>
+        <button @click="goToLogin">前往登入</button>
+        <button @click="showLoginPrompt = false">關閉</button>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>
@@ -62,6 +97,47 @@ const openDocs = () => {
   gap: 10px;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+/* Modal 樣式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.modal-content p { 
+  color: black;
+}
+
+.modal-content button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-content button:first-of-type {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-content button:last-of-type {
+  background-color: #ccc;
 }
 
 @media (max-width: 1024px) {
