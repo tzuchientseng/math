@@ -43,17 +43,24 @@ const goToLogin = () => {
       <RouterView />
   </div>
 
-  <div v-if="showLoginPrompt" class="modal">
+  <!-- Modal 彈窗 -->
+  <div v-if="showLoginPrompt" class="modal" @click.self="showLoginPrompt = false">
     <div class="modal-content">
-        <p>請先登入才能使用此功能</p>
-        <button @click="goToLogin">前往登入</button>
-        <button @click="showLoginPrompt = false">關閉</button>
+      <button class="close-btn" @click="showLoginPrompt = false">&times;</button>
+      <p>請先登入才能開啟</p>
+      <div class="modal-buttons">
+        <button @click="goToLogin" class="confirm-btn">👉 前往登入</button>
+      </div>
     </div>
   </div>
-
 </template>
 
 <style scoped>
+* {
+  font-family: "Noto Sans TC", "Poppins", sans-serif;
+  letter-spacing: 0.5px;
+}
+
 .container {
   margin-top: 20%;
 }
@@ -99,7 +106,6 @@ const goToLogin = () => {
   flex-wrap: wrap;
 }
 
-/* Modal 樣式 */
 .modal {
   position: fixed;
   top: 0;
@@ -110,59 +116,79 @@ const goToLogin = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .modal-content {
-  background: white;
+  background: #f4f4f4;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   text-align: center;
+  position: relative;
+  width: 220px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-in-out;
 }
 
-.modal-content p { 
-  color: black;
+.modal-content p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.modal-content button {
-  margin: 10px;
-  padding: 10px 20px;
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   border: none;
+  background: none;
+  font-size: 20px;
   cursor: pointer;
-  border-radius: 5px;
+  color: #777;
+  transition: color 0.2s;
 }
 
-.modal-content button:first-of-type {
-  background-color: #007bff;
+.close-btn:hover {
+  color: #333;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-btn {
+  background-color: #d39308;
   color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.modal-content button:last-of-type {
-  background-color: #ccc;
+.confirm-btn:hover {
+  background-color: #b94e06;
 }
 
-@media (max-width: 1024px) {
-  .button-container {
-    justify-content: center;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-
-  .docs-button,
-  .topic-button {
-    width: 45%;
-    min-width: 140px;
-    text-align: center;
+  to {
+    opacity: 1;
   }
 }
 
-@media (max-width: 600px) {
-  .button-container {
-    flex-direction: column;
-    align-items: center;
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
   }
-
-  .docs-button,
-  .topic-button {
-    width: 100%;
-    text-align: center;
+  to {
+    transform: translateY(0);
   }
 }
 </style>
