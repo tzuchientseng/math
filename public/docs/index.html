@@ -15,12 +15,35 @@
   <div id="app"></div>
 
   <script>
-    // 先檢查 Token 是否存在於 sessionStorage
     let token = sessionStorage.getItem("token");
 
     if (!token) {
-      alert("未授權，請先登入！");
-      window.location.href = "/#/login"; // 🚀 跳轉回 Vue Router 的 `/login`
+      alert("Unauthorized access, please log in first!");
+      window.location.href = "/#/login";
+    } else {
+      console.log(token);
+      fetch('https://home.sunnytseng.com/api/math-api/user/', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Unauthorized or invalid token');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("User Info:", data);
+        document.getElementById("app").style.display = "block";
+      })
+      .catch(error => {
+        console.error("API Error:", error);
+        alert("Unauthorized access, please log in again!");
+        sessionStorage.removeItem("token");
+        window.location.href = "/#/login";
+      });
     }
   </script>
 
