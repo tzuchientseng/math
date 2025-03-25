@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Math-Notes</title>
 
-  <!-- 預設載入 Light 模式 -->
+  <!-- Docsify 主題 -->
   <link id="theme-style" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css">
 
+  <!-- KaTeX 樣式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" crossorigin="anonymous">
 </head>
 <body>
   <div id="app"></div>
@@ -27,55 +29,53 @@
     window.$docsify = {
       name: '數學筆記',
       repo: 'https://github.com/tzuchientseng/math',
-      loadSidebar: 'sidebar.md', 
+      loadSidebar: 'sidebar.md',
       subMaxLevel: 2,
       search: {
         maxAge: 86400000,
-        placeholder: '搜尋文件...',
+        placeholder: '🔍 搜尋文件...',
         noData: '找不到結果',
         depth: 3
       },
       alias: {
-       '/.*/sidebar.md': '/sidebar.md' // 確保所有頁面共用同一個 sidebar
+       '/.*/sidebar.md': '/sidebar.md' // 確保所有頁面共用 sidebar
       },
-    };
-
-    // 主題切換函數
-    function toggleTheme() {
-      let currentTheme = localStorage.getItem('theme') || 'light';
-      let themeLink = document.getElementById('theme-style');
-      let themeButton = document.getElementById('theme-toggle-btn');
-
-      if (currentTheme === 'light') {
-        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css');
-        localStorage.setItem('theme', 'dark');
-        themeButton.textContent = "☀️"; // 切換為白天模式
-      } else {
-        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css');
-        localStorage.setItem('theme', 'light');
-        themeButton.textContent = "🌙"; // 切換為夜間模式
-      }
-    }
-
-    // 頁面載入時檢查用戶的主題選擇，並更新按鈕圖示
-    window.onload = function() {
-      let savedTheme = localStorage.getItem('theme') || 'light';
-      let themeLink = document.getElementById('theme-style');
-      let themeButton = document.getElementById('theme-toggle-btn');
-
-      if (savedTheme === 'dark') {
-        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css');
-        themeButton.textContent = "☀️"; // 已是夜間模式，按鈕顯示白天模式
-      } else {
-        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css');
-        themeButton.textContent = "🌙"; // 已是白天模式，按鈕顯示夜間模式
-      }
+      markdown: {
+        renderer: {
+          code: function(code, lang) {
+            if (lang === "math") {
+              return katex.renderToString(code, {
+                throwOnError: false,
+                displayMode: true
+              });
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      plugins: [
+        function (hook) {
+          hook.doneEach(function () {
+            renderMathInElement(document.body, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false }
+              ],
+              throwOnError: false
+            });
+          });
+        }
+      ]
     };
   </script>
 
-  <!-- Docsify 主要腳本 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <!-- Docsify 核心 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+
+  <!-- KaTeX 數學公式支援 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
 
   <!-- 🌙 切換模式按鈕 -->
   <button id="theme-toggle-btn" onclick="toggleTheme()" style="
@@ -91,5 +91,36 @@
     cursor: pointer;
   ">🌙</button>
 
+  <script>
+    function toggleTheme() {
+      let currentTheme = localStorage.getItem('theme') || 'light';
+      let themeLink = document.getElementById('theme-style');
+      let themeButton = document.getElementById('theme-toggle-btn');
+
+      if (currentTheme === 'light') {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css');
+        localStorage.setItem('theme', 'dark');
+        themeButton.textContent = "☀️";
+      } else {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css');
+        localStorage.setItem('theme', 'light');
+        themeButton.textContent = "🌙";
+      }
+    }
+
+    window.onload = function () {
+      let savedTheme = localStorage.getItem('theme') || 'light';
+      let themeLink = document.getElementById('theme-style');
+      let themeButton = document.getElementById('theme-toggle-btn');
+
+      if (savedTheme === 'dark') {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css');
+        themeButton.textContent = "☀️";
+      } else {
+        themeLink.setAttribute('href', 'https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css');
+        themeButton.textContent = "🌙";
+      }
+    };
+  </script>
 </body>
 </html>
