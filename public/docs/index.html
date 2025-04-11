@@ -10,7 +10,18 @@
 
   <!-- KaTeX 樣式 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" crossorigin="anonymous">
+
+  <style>
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+      font-size: clamp(0.8rem, 2vw, 1.2rem);
+    }
+  </style>
 </head>
+
 <body>
   <div id="app"></div>
 
@@ -56,7 +67,7 @@
       name: '數學筆記',
       repo: 'https://github.com/tzuchientseng/math',
       loadSidebar: 'sidebar.md',
-      subMaxLevel: 2,
+      subMaxLevel: 3,
       search: {
         maxAge: 86400000,
         placeholder: '🔍 搜尋文件...',
