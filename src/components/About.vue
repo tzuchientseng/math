@@ -15,7 +15,7 @@ const openReadmeInEditor = () => fetch('/__open-in-editor?file=README.md')
       <DocumentationIcon />
     </template>
     <template #heading>文本</template>
-    數學筆記整理
+    解題筆記與教學筆記
   </WelcomeItem>
 
   <WelcomeItem>
