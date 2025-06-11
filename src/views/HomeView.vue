@@ -23,10 +23,19 @@ const handleTopicClick = () => {
   }
 };
 
+const handleVideoClick = () => {
+  if (authStore.isAuthenticated) {
+    window.open('/video', '_blank');
+  } else {
+    showLoginPrompt.value = true;
+  }
+}
+
 const goToLogin = () => {
   showLoginPrompt.value = false;
   router.push('/login');
 };
+
 </script>
 
 
@@ -38,6 +47,9 @@ const goToLogin = () => {
         </button>
         <button @click="handleTopicClick" class="topic-button">
           🎯 題目整理
+        </button>
+        <button @click="handleVideoClick" class="video-button">
+          🎥 教學錄影
         </button>
       </nav>
       <RouterView />
@@ -96,6 +108,17 @@ const goToLogin = () => {
 
 .topic-button:hover {
   background-color: #218838;
+  transform: scale(1.05);
+}
+
+.video-button {
+  border: none;
+  padding: 1px 4px;
+  border-radius: 10px;
+}
+
+.video-button:hover {
+  background-color: gray;
   transform: scale(1.05);
 }
 

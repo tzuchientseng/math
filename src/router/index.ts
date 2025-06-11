@@ -6,6 +6,7 @@
 //     { path: '/', name: 'home', component: () => import('../views/HomeView.vue') },
 //     { path: '/docs', name: 'document', component: () => import('../views/DocsView.vue') },
 //     { path: '/login', name: 'auth', component: () => import('@/views/LoginView.vue') },
+//     { path: '/video', name: 'video', component: () => import('@/views/VideoView.vue') },
 //     { path: '/about', name: 'about', component: () => import('../views/AboutView.vue') }
 //   ]
 // })
@@ -14,6 +15,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DocsView from '../views/DocsView.vue'
+import VideoView from '../views/VideoView.vue'
 import LoginView from '@/views/LoginView.vue'
 import { useAuthStore } from '@/stores/auth'
 
@@ -37,6 +39,12 @@ const router = createRouter({
       component: LoginView,
     },
     {
+      path: '/video',
+      name: 'video',
+      component: VideoView,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
@@ -56,3 +64,4 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+

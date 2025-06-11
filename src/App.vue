@@ -6,7 +6,8 @@ import { useAuthStore } from './stores/auth';
 
 const authStore = useAuthStore();
 const route = useRoute();
-const showHeader = computed(() => route.path !== '/docs');
+// const showHeader = computed(() => route.path !== '/video');
+const showHeader = computed(() => route.path !== '/docs' && route.path !== '/video');
 </script>
 
 <template>
@@ -22,8 +23,8 @@ const showHeader = computed(() => route.path !== '/docs');
           <span v-if="authStore.isAuthenticated">登出</span>
           <span v-else>登入</span>
         </RouterLink> -->
-        <RouterLink 
-        :to="authStore.isAuthenticated ? '/' : '/login'" 
+        <RouterLink
+        :to="authStore.isAuthenticated ? '/' : '/login'"
         @click="authStore.isAuthenticated ? authStore.logout() : null"
         :class="authStore.isAuthenticated ? 'logout-button' : 'login-button'"
         >
