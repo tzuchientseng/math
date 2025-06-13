@@ -13,6 +13,8 @@
 
   <!-- - [Mac5A下](國小數學/Mac5A-.md) -->
   <!-- - [Mac5B下](國小數學/Mac5B-.md) -->
+  - [Mac4A下](國小數學/Mac4A-.md)
+  - [Mac5A下](國小數學/Mac5A-.md)
   - [Mac6A下](國小數學/Mac6A-.md)
   - [Mac6B下](國小數學/Mac6B-.md)
 
