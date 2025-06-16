@@ -2,7 +2,7 @@
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { computed } from 'vue'
-import { useAuthStore } from './stores/auth';
+import { useAuthStore } from './stores/useAuthStore';
 
 const authStore = useAuthStore();
 const route = useRoute();
