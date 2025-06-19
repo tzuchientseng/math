@@ -25,7 +25,7 @@ const handleTopicClick = () => {
 
 const handleVideoClick = () => {
   if (authStore.isAuthenticated) {
-    window.open('/video', '_blank');
+    router.push('/video')
   } else {
     showLoginPrompt.value = true;
   }
