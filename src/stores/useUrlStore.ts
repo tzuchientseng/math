@@ -4,9 +4,16 @@ import { useAuthStore } from './useAuthStore'
 // const API_URL = 'https://home.sunnytseng.com/api/math-api/fetchUrl/' // `npm run deploy`
 const API_URL = 'api/math-api/fetchUrl/'
 
+interface Video {
+  title: string
+  url: string
+  grade: number
+}
+
 export const useUrlStore = defineStore('url', {
+
   state: () => ({
-    urls: [] as string[],
+    videos: [] as Video[],
     loading: false,
   }),
 
@@ -20,7 +27,7 @@ export const useUrlStore = defineStore('url', {
   */
 
   getters: {
-    hasUrls: (state) => state.urls.length > 0,
+    hasVideos: (state) => state.videos.length > 0,
   },
 
   actions: {
@@ -40,10 +47,10 @@ export const useUrlStore = defineStore('url', {
         if (!response.ok) throw new Error('Fetch Failed')
 
         const data = await response.json()
-        this.urls = Array.isArray(data.url) ? data.url : []
+        this.videos = Array.isArray(data.videos) ? data.videos : []
       } catch (error) {
         console.error('Error fetching URL:', error)
-        this.urls = []
+        this.videos = []
       } finally {
         this.loading = false
       }
@@ -59,8 +66,14 @@ import { useAuthStore } from './useAuthStore'
 // const API_URL = 'https://home.sunnytseng.com/api/math-api/fetchUrl/' // `npm run deploy`
 const API_URL = 'api/math-api/fetchUrl/';
 
+interface Video {
+  title: string
+  url: string
+  grade: number
+}
+
 export const useUrlStore = defineStore('url', () => {
-  const urls = ref<string[]>([])
+  const videos = ref<Video[]>([])
   const loading = ref(false)
 
   const fetchUrl = async (grade: number) => {
@@ -79,17 +92,17 @@ export const useUrlStore = defineStore('url', () => {
       if (!response.ok) throw new Error('Fetch Failed')
 
       const data = await response.json()
-      urls.value = Array.isArray(data.url) ? data.url : []
+      videos.value = Array.isArray(data.videos) ? data.videos : []
     } catch (error) {
-      console.error('Error fetching URL:', error)
-      urls.value = []
+      console.error('Error fetching videos:', error)
+      videos.value = []
     } finally {
       loading.value = false
     }
   }
 
   return {
-    urls,
+    videos,
     loading,
     fetchUrl,
   }

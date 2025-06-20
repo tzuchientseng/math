@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { useUrlStore } from '@/stores/useUrlStore'
 
 const urlStore = useUrlStore()
-const selectedGrade = ref(null)
+const selectedGrade = ref<number | null>(null)
 
 watch(selectedGrade, (newGrade) => {
   if (newGrade !== null) {
@@ -20,7 +20,6 @@ onMounted(() => {
 
 <template>
   <div>
-    <!-- 固定頂部的容器 -->
     <div class="video-selector container-fluid mt-4">
       <h2>📺 各年級影片列表</h2>
 
@@ -44,22 +43,19 @@ onMounted(() => {
       </div>
 
       <transition name="fade">
-        <template v-if="!urlStore.loading && selectedGrade !== null">
-          <ol
-            v-if="urlStore.hasUrls"
-            class="list-group list-group-numbered"
-          >
+        <div v-if="!urlStore.loading && selectedGrade !== null">
+          <ol v-if="urlStore.hasVideos" class="list-group list-group-numbered">
             <li
-              v-for="url in urlStore.urls"
-              :key="url"
+              v-for="video in urlStore.videos"
+              :key="video.url"
               class="list-group-item d-flex justify-content-between align-items-start"
             >
               <div class="ms-2 me-auto">
-                <div class="fw-bold">影片連結</div>
-                <a :href="url" target="_blank">{{ url }}</a>
+                <div class="fw-bold">{{ video.title }}</div>
+                <a :href="video.url" target="_blank">{{ video.url }}</a>
               </div>
               <span class="badge bg-primary rounded-pill">
-                {{ selectedGrade }}年級
+                {{ video.grade }} 年級
               </span>
             </li>
           </ol>
@@ -67,15 +63,18 @@ onMounted(() => {
           <div v-else class="text-danger mt-3">
             ❗ 查無 {{ selectedGrade }} 年級的影片資料。
           </div>
-        </template>
+
+          <div v-if="urlStore.errorMessage" class="text-danger mt-3">
+            {{ urlStore.errorMessage }}
+          </div>
+        </div>
       </transition>
+
     </div>
 
-    <!-- 頂部固定後的占位高度，只在 lg 以上出現 -->
     <div class="video-placeholder d-none d-lg-block"></div>
   </div>
 </template>
-
 
 <style scoped>
 .video-selector {
