@@ -16,6 +16,12 @@ onMounted(() => {
     urlStore.fetchUrl(selectedGrade.value)
   }
 })
+
+function getEmbedUrl(youtubeUrl: string): string {
+  const videoIdMatch = youtubeUrl.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+  const videoId = videoIdMatch ? videoIdMatch[1] : ''
+  return `https://www.youtube.com/embed/${videoId}`
+}
 </script>
 
 <template>
@@ -45,19 +51,31 @@ onMounted(() => {
       <transition name="fade">
         <div v-if="!urlStore.loading && selectedGrade !== null">
           <ol v-if="urlStore.hasVideos" class="list-group list-group-numbered">
-            <li
-              v-for="video in urlStore.videos"
-              :key="video.url"
-              class="list-group-item d-flex justify-content-between align-items-start"
-            >
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">{{ video.title }}</div>
-                <a :href="video.url" target="_blank">{{ video.url }}</a>
-              </div>
-              <span class="badge bg-primary rounded-pill">
-                {{ video.grade }} 年級
-              </span>
-            </li>
+          <li
+            v-for="video in urlStore.videos"
+            :key="video.url"
+            class="list-group-item"
+          >
+          <div class="text-end">
+            <span class="badge bg-primary rounded-pill">
+              {{ video.grade }} 年級
+            </span>
+          </div>
+          <div class="video-content">
+            <div class="fw-bold text-center">{{ video.title }}</div>
+            <div class="video-preview">
+              <iframe
+                :src="getEmbedUrl(video.url)"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="text-center">
+              <!-- <a :href="video.url" target="_blank">👉 Click to watch on YouTube</a> -->
+            </div>
+            <hr class="w-75 mx-auto my-4 border border-dark border-2 opacity-50">
+            </div>
+          </li>
           </ol>
 
           <div v-else class="text-danger mt-3">
@@ -68,6 +86,7 @@ onMounted(() => {
             {{ urlStore.errorMessage }}
           </div>
         </div>
+
       </transition>
 
     </div>
@@ -188,6 +207,26 @@ label[for="gradeSelect"] {
     scrollbar-width: thin;
     scrollbar-color: #999 #f0f0f0;
   }
+}
+
+.video-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-preview {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.video-preview iframe {
+  width: 100%;
+  max-width: 480px;
+  height: 270px;
+  border-radius: 12px;
 }
 </style>
 
