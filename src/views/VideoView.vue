@@ -26,73 +26,73 @@ function getEmbedUrl(youtubeUrl: string): string {
 
 <template>
   <div>
-    <div class="video-selector container-fluid mt-4">
-      <h2>📺 各年級影片列表</h2>
+    <div>
+      <div class="video-selector container-fluid">
+        <h1>🎬 各年級影片</h1>
 
-      <div class="mb-3">
-        <label for="gradeSelect" class="form-label">🎓 選擇年級</label>
-        <select id="gradeSelect" class="form-select" v-model="selectedGrade">
-          <option disabled value="">請選擇年級</option>
-          <option :value="3">三年級</option>
-          <option :value="4">四年級</option>
-          <option :value="5">五年級</option>
-          <option :value="6">六年級</option>
-        </select>
-      </div>
-
-      <div v-if="selectedGrade === null" class="text-muted">
-        請從上方選擇一個年級來顯示影片。
-      </div>
-
-      <div v-else-if="urlStore.loading" class="text-info">
-        🔄 正在載入 {{ selectedGrade }} 年級的影片資料...
-      </div>
-
-      <transition name="fade">
-        <div v-if="!urlStore.loading && selectedGrade !== null">
-          <ol v-if="urlStore.hasVideos" class="list-group list-group-numbered">
-          <li
-            v-for="video in urlStore.videos"
-            :key="video.url"
-            class="list-group-item"
-          >
-          <div class="text-end">
-            <span class="badge bg-primary rounded-pill">
-              {{ video.grade }} 年級
-            </span>
-          </div>
-          <div class="video-content">
-            <div class="fw-bold text-center">{{ video.title }}</div>
-            <div class="video-preview">
-              <iframe
-                :src="getEmbedUrl(video.url)"
-                frameborder="0"
-                allowfullscreen
-              ></iframe>
-            </div>
-            <div class="text-center">
-              <!-- <a :href="video.url" target="_blank">👉 Click to watch on YouTube</a> -->
-            </div>
-            <hr class="w-75 mx-auto my-4 border border-dark border-2 opacity-50">
-            </div>
-          </li>
-          </ol>
-
-          <div v-else class="text-danger mt-3">
-            ❗ 查無 {{ selectedGrade }} 年級的影片資料。
-          </div>
-
-          <div v-if="urlStore.errorMessage" class="text-danger mt-3">
-            {{ urlStore.errorMessage }}
-          </div>
+        <div>
+          <label for="gradeSelect" class="form-label">🎓 選擇年級</label>
+          <select id="gradeSelect" class="form-select" v-model="selectedGrade">
+            <option disabled value="">請選擇年級</option>
+            <!-- <option value="3">三年級</option> -->
+            <!-- <option value="4">四年級</option> -->
+            <!-- <option value="5">五年級</option> -->
+            <option value="6">六年級</option>
+          </select>
         </div>
-
-      </transition>
-
+      </div>
     </div>
 
-    <div class="video-placeholder d-none d-lg-block"></div>
+    <div v-if="selectedGrade === null" class="">
+      未選擇年級 ~
+    </div>
+
+    <div v-else-if="urlStore.loading" class="text-info">
+      ...正在載入 {{ selectedGrade }} 年級的影片資料...
+    </div>
+
+    <transition name="fade">
+      <div v-if="!urlStore.loading && selectedGrade !== null">
+        <ol v-if="urlStore.hasVideos" class="list-group list-group-numbered">
+        <li
+          v-for="video in urlStore.videos"
+          :key="video.url"
+          class="list-group-item"
+        >
+        <div class="text-end">
+          <span class="badge bg-primary rounded-pill">
+            {{ video.grade }} 年級
+          </span>
+        </div>
+        <div class="video-content">
+          <div class="fw-bold text-center">{{ video.title }}</div>
+          <div class="video-preview">
+            <iframe
+              :src="getEmbedUrl(video.url)"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="text-center">
+            <a :href="video.url" target="_blank">👉 Click to watch on YouTube</a>
+          </div>
+          <hr class="w-75 mx-auto my-4 border border-dark border-2 opacity-50">
+          </div>
+        </li>
+        </ol>
+
+        <div v-else class="text-danger">
+          ❗ 查無 {{ selectedGrade }} 年級的影片資料。
+        </div>
+
+        <div v-if="urlStore.errorMessage" class="text-danger mt-3">
+          {{ urlStore.errorMessage }}
+        </div>
+      </div>
+    </transition>
+
   </div>
+
 </template>
 
 <style scoped>
@@ -101,22 +101,20 @@ function getEmbedUrl(youtubeUrl: string): string {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 大螢幕固定於畫面上方 */
 @media (min-width: 992px) {
   .video-selector {
     position: fixed;
-    top: 5%;
+    top: 4%;
     left: 10%;
     width: 80%;
     z-index: 1000;
   }
 
   .video-placeholder {
-    height: 250px; /* 根據實際需要調整 */
+    height: 250px;
   }
 }
 
-/* 過渡動畫修正 */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -125,36 +123,6 @@ function getEmbedUrl(youtubeUrl: string): string {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-/* 標題 */
-h2 {
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-}
-
-/* 表單標籤 */
-label[for="gradeSelect"] {
-  font-weight: 600;
-}
-
-/* 下拉選單最大寬度 */
-#gradeSelect {
-  max-width: 300px;
-}
-
-/* 說明文字 */
-.text-muted {
-  font-style: italic;
-}
-
-.text-info {
-  font-weight: 500;
-}
-
-.text-danger {
-  font-weight: 500;
-  font-size: 1.1rem;
 }
 
 /* 超連結樣式 */
@@ -228,5 +196,6 @@ label[for="gradeSelect"] {
   height: 270px;
   border-radius: 12px;
 }
+
 </style>
 
