@@ -25,96 +25,90 @@ function getEmbedUrl(youtubeUrl: string): string {
 </script>
 
 <template>
-  <div>
-    <div>
-      <div class="video-selector container-fluid">
-        <h1>🎬 各年級影片</h1>
+  <div class="container">
+    <div class="video-selector">
+      <h1>🎬 各年級影片</h1>
 
-        <div>
-          <label for="gradeSelect" class="form-label">🎓 選擇年級</label>
-          <select id="gradeSelect" class="form-select" v-model="selectedGrade">
-            <option disabled value="">請選擇年級</option>
-            <!-- <option value="3">三年級</option> -->
-            <!-- <option value="4">四年級</option> -->
-            <!-- <option value="5">五年級</option> -->
-            <option value="6">六年級</option>
-          </select>
-        </div>
-      </div>
+      <label for="gradeSelect" class="form-label">🎓 選擇年級</label>
+      <select id="gradeSelect" class="form-select" v-model="selectedGrade">
+        <option disabled value="">請選擇年級</option>
+        <!-- <option value="3">三年級</option> -->
+        <!-- <option value="4">四年級</option> -->
+        <!-- <option value="5">五年級</option> -->
+        <option value="6">六年級</option>
+      </select>
     </div>
 
-    <div v-if="selectedGrade === null" class="">
+    <div v-if="selectedGrade === null" class="text-center mt-3">
       未選擇年級 ~
     </div>
 
-    <div v-else-if="urlStore.loading" class="text-info">
+    <div v-else-if="urlStore.loading" class="text-info text-center mt-3">
       ...正在載入 {{ selectedGrade }} 年級的影片資料...
     </div>
 
     <transition name="fade">
-      <div v-if="!urlStore.loading && selectedGrade !== null">
-        <ol v-if="urlStore.hasVideos" class="list-group list-group-numbered">
-        <li
-          v-for="video in urlStore.videos"
-          :key="video.url"
-          class="list-group-item"
-        >
-        <div class="text-end">
-          <span class="badge bg-primary rounded-pill">
-            {{ video.grade }} 年級
-          </span>
+      <div v-if="!urlStore.loading && selectedGrade !== null" class="video-grid-container">
+        <div v-if="urlStore.hasVideos" class="video-grid">
+          <div v-for="video in urlStore.videos" :key="video.url" class="video-card">
+            <div class="text-end">
+              <span class="badge bg-primary rounded-pill">
+                {{ video.grade }} 年級
+              </span>
+            </div>
+            <div class="video-content">
+              <div class="fw-bold text-center mt-2">{{ video.title }}</div>
+              <div class="video-preview">
+                <iframe
+                  :src="getEmbedUrl(video.url)"
+                  frameborder="0"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="text-center">
+                <a :href="video.url" target="_blank">👉 Click to watch on YouTube</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="video-content">
-          <div class="fw-bold text-center">{{ video.title }}</div>
-          <div class="video-preview">
-            <iframe
-              :src="getEmbedUrl(video.url)"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <div class="text-center">
-            <a :href="video.url" target="_blank">👉 Click to watch on YouTube</a>
-          </div>
-          <hr class="w-75 mx-auto my-4 border border-dark border-2 opacity-50">
-          </div>
-        </li>
-        </ol>
 
-        <div v-else class="text-danger">
+        <div v-else class="text-danger text-center mt-3">
           ❗ 查無 {{ selectedGrade }} 年級的影片資料。
         </div>
 
-        <div v-if="urlStore.errorMessage" class="text-danger mt-3">
+        <div v-if="urlStore.errorMessage" class="text-danger text-center mt-3">
           {{ urlStore.errorMessage }}
         </div>
       </div>
     </transition>
-
   </div>
-
 </template>
 
 <style scoped>
-.video-selector {
+.container {
+  color: black;
+  max-width: 1200px; /* 提升容器寬度 */
+  margin: 0 auto;
   padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-top: 7rem; /* 預留fixed selector空間 */
 }
 
-@media (min-width: 992px) {
-  .video-selector {
-    position: fixed;
-    top: 4%;
-    left: 10%;
-    width: 80%;
-    z-index: 1000;
-  }
-
-  .video-placeholder {
-    height: 250px;
-  }
+/* Fixed selector */
+.video-selector {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: #fff;
+  border-radius: 12px;
+  z-index: 1000;
 }
 
+/* Transition */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -125,58 +119,42 @@ function getEmbedUrl(youtubeUrl: string): string {
   opacity: 0;
 }
 
-/* 超連結樣式 */
-.list-group-item a {
-  word-break: break-word;
-  text-decoration: none;
+/* Video Grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
 }
 
-.list-group-item a:hover {
-  text-decoration: underline;
-}
-
-/* 標籤 badge 樣式 */
-.badge {
-  font-size: 0.9rem;
-  padding: 0.5em 0.75em;
-}
-
-/* 限制列表最大高度，出現滾動條 */
-.list-group-numbered {
-  max-height: 70vh;
-  overflow-y: auto;
-  padding-right: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-/* WebKit 滾軸樣式 */
-.list-group-numbered::-webkit-scrollbar {
-  width: 8px;
-}
-
-.list-group-numbered::-webkit-scrollbar-track {
-  background: #f0f0f0;
-  border-radius: 4px;
-}
-
-.list-group-numbered::-webkit-scrollbar-thumb {
-  background-color: #999;
-  border-radius: 4px;
-  border: 2px solid #f0f0f0;
-}
-
-.list-group-numbered::-webkit-scrollbar-thumb:hover {
-  background-color: #666;
-}
-
-/* Firefox 滾軸樣式 */
-@supports (scrollbar-color: auto) {
-  .list-group-numbered {
-    scrollbar-width: thin;
-    scrollbar-color: #999 #f0f0f0;
+@media (min-width: 992px) {
+  .video-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
+.video-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Badge */
+.badge {
+  font-size: 1rem;
+  padding: 0.5em 0.8em;
+}
+
+/* Video Content */
 .video-content {
   display: flex;
   flex-direction: column;
@@ -184,18 +162,30 @@ function getEmbedUrl(youtubeUrl: string): string {
 }
 
 .video-preview {
+  position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 0.5rem 0;
+  padding-top: 56.25%;
+  margin: 1rem 0;
 }
 
 .video-preview iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 480px;
-  height: 270px;
+  height: 100%;
   border-radius: 12px;
+  border: 0;
 }
 
-</style>
+/* Link Styling */
+.video-card a {
+  word-break: break-word;
+  text-decoration: none;
+  color: #007bff;
+}
 
+.video-card a:hover {
+  text-decoration: underline;
+}
+</style>
