@@ -32,6 +32,7 @@ function getEmbedUrl(youtubeUrl: string): string {
       <label for="gradeSelect" class="form-label">🎓 選擇年級</label>
       <select id="gradeSelect" class="form-select" v-model="selectedGrade">
         <option disabled value="">請選擇年級</option>
+        <option value="0">培訓試教</option>
         <!-- <option value="3">三年級</option> -->
         <!-- <option value="4">四年級</option> -->
         <!-- <option value="5">五年級</option> -->
@@ -44,7 +45,10 @@ function getEmbedUrl(youtubeUrl: string): string {
     </div>
 
     <div v-else-if="urlStore.loading" class="text-info text-center mt-3">
-      ...正在載入 {{ selectedGrade }} 年級的影片資料...
+      ...正在載入
+      <span v-if="selectedGrade == 0">試教</span>
+      <span v-else>{{ selectedGrade }}</span>
+      年級的影片資料...
     </div>
 
     <transition name="fade">
@@ -52,7 +56,7 @@ function getEmbedUrl(youtubeUrl: string): string {
         <div v-if="urlStore.hasVideos" class="video-grid">
           <div v-for="video in urlStore.videos" :key="video.url" class="video-card">
             <div class="text-end">
-              <span class="badge bg-primary rounded-pill">
+              <span v-if="video.grade !== 0" class="badge bg-primary rounded-pill">
                 {{ video.grade }} 年級
               </span>
             </div>
@@ -144,7 +148,8 @@ function getEmbedUrl(youtubeUrl: string): string {
 }
 
 .video-card:hover {
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
+  transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -163,8 +168,8 @@ function getEmbedUrl(youtubeUrl: string): string {
 
 .video-preview {
   position: relative;
-  width: 100%;
-  padding-top: 56.25%;
+  width: 120%;
+  padding-top: 100%;
   margin: 1rem 0;
 }
 
