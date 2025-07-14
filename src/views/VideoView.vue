@@ -33,9 +33,6 @@ function getEmbedUrl(youtubeUrl: string): string {
       <select id="gradeSelect" class="form-select" v-model="selectedGrade">
         <option disabled value="">請選擇年級</option>
         <option value="0">培訓試教</option>
-        <!-- <option value="3">三年級</option> -->
-        <!-- <option value="4">四年級</option> -->
-        <!-- <option value="5">五年級</option> -->
         <option value="6">六年級</option>
       </select>
     </div>
@@ -91,13 +88,12 @@ function getEmbedUrl(youtubeUrl: string): string {
 <style scoped>
 .container {
   color: black;
-  max-width: 1200px; /* 提升容器寬度 */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
-  padding-top: 7rem; /* 預留fixed selector空間 */
+  padding-top: 7rem;
 }
 
-/* Fixed selector */
 .video-selector {
   position: fixed;
   top: 1rem;
@@ -112,7 +108,6 @@ function getEmbedUrl(youtubeUrl: string): string {
   z-index: 1000;
 }
 
-/* Transition */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -123,43 +118,47 @@ function getEmbedUrl(youtubeUrl: string): string {
   opacity: 0;
 }
 
-/* Video Grid */
-.video-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+.video-grid-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
 }
 
-@media (min-width: 992px) {
-  .video-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 240px));
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .video-card {
   background: #fff;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
 .video-card:hover {
-  /* transform: translateY(-5px); */
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Badge */
 .badge {
   font-size: 1rem;
   padding: 0.5em 0.8em;
 }
 
-/* Video Content */
 .video-content {
   display: flex;
   flex-direction: column;
@@ -168,8 +167,8 @@ function getEmbedUrl(youtubeUrl: string): string {
 
 .video-preview {
   position: relative;
-  width: 120%;
-  padding-top: 100%;
+  width: 100%;
+  padding-top: 70%;
   margin: 1rem 0;
 }
 
@@ -183,7 +182,6 @@ function getEmbedUrl(youtubeUrl: string): string {
   border: 0;
 }
 
-/* Link Styling */
 .video-card a {
   word-break: break-word;
   text-decoration: none;
@@ -194,3 +192,4 @@ function getEmbedUrl(youtubeUrl: string): string {
   text-decoration: underline;
 }
 </style>
+
