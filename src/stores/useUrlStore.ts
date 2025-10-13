@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useAuthStore } from './useAuthStore'
 
-// const API_URL = 'https://home.sunnytseng.com/api/math-api/fetchUrl/' // `npm run deploy`
+// const API_URL = 'https://sunnytseng.com/api/math-api/fetchUrl/' // `npm run deploy`
 const API_URL = 'api/math-api/fetchUrl/'
 
 interface Video {
