@@ -1,30 +1,134 @@
-# Logs
-logs
-*.log
+# =========================
+# 🚀 Node.js & Frontend 基礎
+# =========================
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+logs/
+*.log
 
-node_modules
-.DS_Store
-dist
-dist-ssr
-coverage
+# =========================
+# 🏗️ Build 輸出
+# =========================
+dist/
+dist-ssr/
+build/
+public/build/
+coverage/
 *.local
 
+# =========================
+# 🧪 測試 / Cypress / Playwright
+# =========================
 /cypress/videos/
 /cypress/screenshots/
+/playwright-report/
+/test-results/
 
-# Editor directories and files
+# =========================
+# 💾 系統檔案
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# =========================
+# 🧰 編輯器 / IDE 設定
+# =========================
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.iml
 
+# =========================
+# 🧩 TypeScript / JS 工具暫存
+# =========================
 *.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# =========================
+# 🪄 環境設定檔（依專案需要）
+# =========================
+.env
+.env.*.local
+!.env.example
+
+# =========================
+# 🧱 Vite / Webpack / Rollup 快取
+# =========================
+.vite/
+.cache/
+.temp/
+tmp/
+rollup.config.js.timestamp*
+vite.config.js.timestamp*
+
+# =========================
+# 🧱 專案產出（SSR / Prerender）
+# =========================
+out/
+.nuxt/
+.next/
+.svelte-kit/
+
+# =========================
+# 🔧 鎖檔控制（可選）
+# =========================
+# ⚠️ 若跨平台開發時 npm 可選依賴有問題，可取消註解下一行：
+# package-lock.json
+# 或針對 yarn/pnpm
+# yarn.lock
+# pnpm-lock.yaml
+
+# =========================
+# 🪶 其他常見暫存
+# =========================
+*.pid
+*.seed
+*.pid.lock
+*.tgz
+*.zip
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# =========================
+# 🧱 Framework 特化
+# =========================
+# React Native
+.expo/
+.expo-shared/
+
+# SvelteKit
+.svelte-kit/
+
+# Next.js
+.next/
+out/
+
+# Nuxt
+.nuxt/
+
+# Astro
+.astro/
+
+# =========================
+# 📦 Docker / Cloud
+# =========================
+Dockerfile
+docker-compose.yml
+.dockerignore
+*.tar
+

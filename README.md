@@ -24,3 +24,11 @@ npm install -g gh-pages
 npm i docsify
 # npm i -g docsify-cli
 ```
+
+```Mac Setting
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
+```
+
+`git remote set-url origin git@github.com:tzuchientseng/math.git`
