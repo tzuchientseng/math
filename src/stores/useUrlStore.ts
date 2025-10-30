@@ -11,7 +11,6 @@ interface Video {
 }
 
 export const useUrlStore = defineStore('url', {
-
   state: () => ({
     videos: [] as Video[],
     loading: false,
@@ -39,9 +38,9 @@ export const useUrlStore = defineStore('url', {
         const response = await fetch(`${API_URL}?grade=${grade}`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${authStore.token ?? ''}`,
+            Authorization: `Bearer ${authStore.token ?? ''}`,
             'Content-Type': 'application/json',
-          }
+          },
         })
 
         if (!response.ok) throw new Error('Fetch Failed')
@@ -54,8 +53,8 @@ export const useUrlStore = defineStore('url', {
       } finally {
         this.loading = false
       }
-    }
-  }
+    },
+  },
 })
 
 /*
@@ -108,4 +107,3 @@ export const useUrlStore = defineStore('url', () => {
   }
 })
 */
-

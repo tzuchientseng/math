@@ -2,12 +2,12 @@
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { computed } from 'vue'
-import { useAuthStore } from './stores/useAuthStore';
+import { useAuthStore } from './stores/useAuthStore'
 
-const authStore = useAuthStore();
-const route = useRoute();
+const authStore = useAuthStore()
+const route = useRoute()
 // const showHeader = computed(() => route.path !== '/video');
-const showHeader = computed(() => route.path !== '/docs' && route.path !== '/video');
+const showHeader = computed(() => route.path !== '/docs' && route.path !== '/video')
 </script>
 
 <template>
@@ -24,19 +24,19 @@ const showHeader = computed(() => route.path !== '/docs' && route.path !== '/vid
           <span v-else>登入</span>
         </RouterLink> -->
         <RouterLink
-        :to="authStore.isAuthenticated ? '/' : '/login'"
-        @click="authStore.isAuthenticated ? authStore.logout() : null"
-        :class="authStore.isAuthenticated ? 'logout-button' : 'login-button'"
+          :to="authStore.isAuthenticated ? '/' : '/login'"
+          @click="authStore.isAuthenticated ? authStore.logout() : null"
+          :class="authStore.isAuthenticated ? 'logout-button' : 'login-button'"
         >
-        {{ authStore.isAuthenticated ? '登出' : '登入' }}
-      </RouterLink>
-    </nav>
+          {{ authStore.isAuthenticated ? '登出' : '登入' }}
+        </RouterLink>
+      </nav>
 
-    <div v-if="authStore.isAuthenticated" class="user-info">
-      <span>Hi~ {{ authStore.getUserName }}!</span>
-      <img :src="authStore.user?.avatar" alt="User Avatar" class="user-avatar">
+      <div v-if="authStore.isAuthenticated" class="user-info">
+        <span>Hi~ {{ authStore.getUserName }}!</span>
+        <img :src="authStore.user?.avatar" alt="User Avatar" class="user-avatar" />
+      </div>
     </div>
-  </div>
   </header>
 
   <RouterView />
@@ -147,5 +147,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-
 </style>
