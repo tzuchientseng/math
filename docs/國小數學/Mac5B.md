@@ -58,7 +58,7 @@
 
 ```
 
-![Imgur](../math-docs-images/五年級/線段解提1.JPEG)
+![Imgur](../math-docs-images/五年級/線段解題1.JPEG)
 
 🟡 老師叮嚀:
 
